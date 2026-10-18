@@ -1,0 +1,73 @@
+apiVersion: aikart.dev/v1
+kind: AgentManifest
+
+metadata:
+  name: harvestsaarthi-ai
+  displayName: HarvestSaarthi AI
+  description: Evidence-driven AI decision agent helping small farmers optimize post-harvest sell, store, transport, and timing decisions.
+
+runtime:
+  type: docker
+  image: hemanthkumar312005/harvestsaarthi-ai:latest
+  command: python -m backend.aikart_runner
+
+resources:
+  cpu: 2
+  memoryMb: 2048
+  timeoutSeconds: 120
+
+inputs:
+  - name: crop
+    label: Crop Name
+    type: select
+    required: true
+    options:
+      - Tomato
+      - Onion
+      - Banana
+      - Potato
+      - Green Chili
+      - Paddy
+      - Maize
+      - Mango
+    default: Tomato
+  - name: quantity_kg
+    label: Harvest Quantity (kg)
+    type: number
+    required: true
+    default: 2000
+  - name: location
+    label: Farmer District/Location
+    type: text
+    required: true
+    default: Hassan
+  - name: harvest_timing
+    label: Expected Harvest Timing
+    type: text
+    required: false
+    default: Tomorrow Morning
+  - name: storage_available
+    label: Local Cold Storage Available?
+    type: boolean
+    required: false
+    default: false
+  - name: transport_available
+    label: Transport Vehicle Available?
+    type: boolean
+    required: false
+    default: true
+  - name: preferred_language
+    label: Preferred Language
+    type: select
+    required: false
+    options:
+      - English
+      - Kannada
+      - Hindi
+    default: English
+
+output:
+  format: markdown
+
+security:
+  networkEgress: none
